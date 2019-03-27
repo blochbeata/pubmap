@@ -1,0 +1,22 @@
+{% extends 'pubmap/base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-14 mx-auto">
+            <button onclick="window.location.href='/'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Strona główna</button>
+            <button onclick="window.location.href='/addpub'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Dodaj knajpę</button>
+            <button onclick="window.location.href='/showallpubs'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Zobacz wszystkie knajpy</button>
+        </div>
+    </div>
+
+    <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" class="btn btn-dark text-uppercase font-weight-bold mb-2" value="Dodaj opinię">
+    </form>
+{% else %}
+<p>Strona dostępna tylko dla zalogowanych użytkowników!</p>
+{% endif %}
+</div>
+{% endblock %}

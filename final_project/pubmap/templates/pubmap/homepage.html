@@ -1,0 +1,251 @@
+{% extends 'pubmap/base.html' %}
+<link rel="stylesheet" href="static/css/style.css">
+{% block content %}
+
+{% if user.is_authenticated %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-14 mx-auto">
+            <button onclick="window.location.href='/addpub'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Dodaj knajpę</button>
+            <button onclick="window.location.href='/addreview'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Dodaj opinię</button>
+            <button onclick="window.location.href='/showallpubs'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Zobacz wszystkie knajpy</button>
+        </div>
+    </div>
+</div>
+    {% endif %}
+<hr>
+
+<div id="map"></div>
+<script>
+      function initMap() {
+       var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 52.237049, lng: 21.017532},
+          zoom: 13,
+           styles:
+           [
+    {
+        "featureType": "all",
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "saturation": 36
+            },
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 40
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 16
+            }
+        ]
+    },
+    {
+        "featureType": "all",
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 17
+            },
+            {
+                "weight": 1.2
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#17191b"
+            },
+            {
+                "lightness": 20
+            },
+            {
+                "visibility": "simplified"
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 21
+            }
+        ]
+    },
+    {
+        "featureType": "poi.attraction",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "saturation": "11"
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 17
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 29
+            },
+            {
+                "weight": 0.2
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "labels.text",
+        "stylers": [
+            {
+                "saturation": "23"
+            },
+            {
+                "lightness": "23"
+            },
+            {
+                "gamma": "4.64"
+            },
+            {
+                "weight": "1.95"
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 18
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 16
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 19
+            }
+        ]
+    },
+    {
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#3b87a5"
+            },
+            {
+                "lightness": 17
+            }
+        ]
+    }
+]
+        });
+          {% for place in places %}
+          var lat_lng = {lat: {{place.latitude}}, lng: {{place.longitude}}};
+          var marker = new google.maps.Marker({position: lat_lng, map: map});
+          google.maps.event.addListener(marker, 'click', function() {
+              var model = document.getElementById('info');
+              model.innerHTML = "{{place.name}}. "+
+                  "Adres: {{place.formatted_address}}. {% if place.formatted_phone_number != "undefined" %} Numer telefonu: {{place.formatted_phone_number}}. {% endif %}" +
+                 "{% if place.opening_hours != Null %} Godziny otwarcia: {%for day in place.opening_hours %} {{day}}{%endfor%}; {% endif %} {% for review in reviews %}{% if place.id == review.pub_id %}" +
+                     "Ostatni raport: Czy usiądziesz? {{ review.get_rating_display }}. Dodano: {{ review.posted }}. {% endif %} {% endfor %}";
+              model.classList.toggle('show');
+});
+          {% endfor %}
+      }
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    </script>
+
+<div class="container" id="cont">
+    <div class="alert alert-dark alert-dismissible fade in" id="info">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+

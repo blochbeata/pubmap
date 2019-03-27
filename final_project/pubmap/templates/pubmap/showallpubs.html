@@ -1,0 +1,71 @@
+{% extends 'pubmap/base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-14 h-100 justify-content-center align-items-center mx-auto">
+            <button onclick="window.location.href='/'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Strona główna</button>
+            <button onclick="window.location.href='/addpub'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Dodaj knajpę</button>
+            <button onclick="window.location.href='/addreview'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Dodaj opinię</button>
+        </div>
+    </div>
+<div class="listview">
+    {% for pub in pubs %}
+        <dl>
+        <h3> {{ pub.name }} </h3>
+            <dt> Adres:    </dt>
+            <dd>{{ pub.formatted_address }}</dd>
+            {% if pub.formatted_phone_number != "undefined" %}
+                <dt>  Numer telefonu: </dt>
+                <dd>{{ pub.formatted_phone_number }}</dd>
+            {% endif %}
+            <dt>  Adres strony:  </dt>
+            <dd><a href="{{ pub.website }}">{{ pub.website }}</a></dd>
+            {% if pub.opening_hours != Null %}
+                <dt>   Godziny otwarcia: </dt>
+                {% for day in pub.opening_hours %}
+                    <dd> {{ day }} </dd>
+                {% endfor %}
+            {% endif %}
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header p-3 mb-2 bg-dark text-white">
+                        <a class="card-link text-white" data-toggle="collapse" href="#collapse">
+                            <dt>Raporty:</dt>
+                        </a>
+                    </div>
+                    <div id="collapse" class="collapse" data-parent="#accordion">
+                        <div class="card-body">
+                            {% for review in reviews %}
+                                <dd>
+                                    {% if pub.id == review.pub_id %}
+                                        <li>
+                                            <dt>Czy usiądziesz?</dt>
+                                            <dd>{{ review.get_rating_display }}</dd>
+                                            <dt>Data dodania opinii:</dt>
+                                            <dd>{{ review.posted }}</dd>
+                                            <dt>Komentarz: </dt>
+                                            <dd>{{ review.comment }}</dd>
+                                            <dt>Autor raportu: </dt>
+                                            <dd>{{ review.author }}</dd>
+                                        </li>
+                                    {% endif %}
+                                </dd>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="window.location.href='/addreview'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Dodaj opinię</button>
+
+        </dl>
+    {% endfor %}
+{% else %}
+<p>Strona dostępna tylko dla zalogowanych użytkowników!</p>
+{% endif %}
+    </div>
+</div>
+
+
+{% endblock %}

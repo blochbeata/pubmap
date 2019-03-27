@@ -1,0 +1,34 @@
+{% extends 'pubmap/base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-14 mx-auto">
+            <button onclick="window.location.href='/'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Strona główna</button>
+            <button onclick="window.location.href='/addreview'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Dodaj opinię</button>
+            <button onclick="window.location.href='/showallpubs'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Zobacz wszystkie knajpy</button>
+        </div>
+    </div>
+<br>
+<div>
+
+<script src="/static/js/pubsearch.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete&language=pl-PL"
+         async defer></script>
+<form>
+    <label>Szukaj knajpy po nazwie:</label><input type="text" id='searchbar' class="form-control" placeholder="Wpisz nazwę">
+</form>
+
+    <form action="" method="post" id="review">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-dark text-uppercase font-weight-bold mb-1" value="Zapisz!">
+    </form>
+
+</div>
+{% else %}
+<p>Strona dostępna tylko dla zalogowanych użytkowników!</p>
+{% endif %}
+</div>
+{% endblock %}
+

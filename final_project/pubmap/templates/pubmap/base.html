@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="PL-pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Pub Map</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="static/css/style.css">
+
+</head>
+<body>
+ <div class="container">
+     <div>
+    {% if user.is_authenticated %}
+   <p class="bg-secondary text-white text-center text-uppercase font-weight-bold mb-1">zalogowany jako {{ user.username }}</p>
+         <button onclick="window.location.href='/logout'" class="btn btn-block btn-dark text-uppercase font-weight-bold mb-1">Wyloguj się</button>
+    {% else %}
+         <button onclick="window.location.href='/login'" class="btn btn-block btn-dark text-uppercase font-weight-bold mb-1">Zaloguj się</button>
+         <button onclick="window.location.href='/signin'" class="btn btn-block btn-dark text-uppercase font-weight-bold mb-1">Zarejestruj się</button>
+    {% endif %}
+     </div>
+        <hr>
+ </div>
+
+{% block content %} {% endblock %}
+
+</body>
+</html>

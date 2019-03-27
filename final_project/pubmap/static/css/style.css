@@ -1,0 +1,53 @@
+#map {
+    height: 75% !important;
+    width: 100% !important;
+    position: absolute !important;
+    border: 50px whitesmoke !important;
+      }
+
+body {
+    margin: 0;
+    background-image: url(../img/background.jpg) !important;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.container {
+    margin-top: 20px;
+    align-content: center;
+}
+
+.listview {
+    margin-top: 20px;
+    background-color: rgba(0,0,0,.5);
+    color: whitesmoke;
+    text-align: center;
+}
+
+button {
+    margin-top: 20px;
+}
+
+form {
+    font-weight: 900;
+    background-color: rgba(0,0,0,.5);
+    text-align: center;
+    color: whitesmoke;
+}
+
+a:link {
+  color: #bfbfbf;
+}
+
+a:hover {
+  color: #4d4d4d;
+}
+
+.error {
+    margin-top: 20px;
+    font-weight: 900;
+    background-color: rgba(0,0,0,.5);
+    text-align: center;
+    color: whitesmoke;
+}

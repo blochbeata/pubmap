@@ -1,0 +1,11 @@
+{%  extends 'pubmap/base.html' %}
+{% block content %}
+        <link rel="stylesheet" href="static/css/style.css">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-14 mx-auto">
+                <button onclick="window.location.href='/'" class="btn btn-dark text-uppercase font-weight-bold mb-2">Strona główna</button>
+    <h2 class="error"> {{ msg }} </h2>
+        </div>
+    </div>
+{% endblock %}
